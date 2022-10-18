@@ -66,6 +66,7 @@ public class DemoUseCase {
     }
 
     public ResponseEntity encodeXLSX(String base64) {
+        log.info("entro metodo encode");
         FileOutputStream writer = null;
         try {
             writer = new FileOutputStream(new File("D:/prueba.xlsx"));
@@ -76,5 +77,19 @@ public class DemoUseCase {
         }
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity stream(String base64, int total) {
+//        log.info("entro metodo stream: " + base64);
+
+        try (FileOutputStream writer = new FileOutputStream(new File("D:/prueba.xlsx"))) {
+            writer.write(Base64.getDecoder().decode(base64));
+            writer.close();
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        }
+
+        return new ResponseEntity(base64, HttpStatus.OK);
     }
 }

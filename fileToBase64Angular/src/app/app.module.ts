@@ -11,12 +11,14 @@ import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
 
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { UploadChunkFileComponent } from './upload-chunk-file/upload-chunk-file.component';
 
 registerLocaleData(es);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UploadChunkFileComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ registerLocaleData(es);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzUploadModule
+    NzUploadModule,
+    HttpClientModule
   ],
   providers: [{ provide: NZ_I18N, useValue: es_ES }],
   bootstrap: [AppComponent]

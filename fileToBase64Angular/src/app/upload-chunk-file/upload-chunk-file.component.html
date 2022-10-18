@@ -9,11 +9,9 @@
   [nzType]="'primary'"
   [nzLoading]="uploading"
 
-  (click)="chunkedFiles()"
+  (click)="loadFile2()"
   [disabled]="fileList.length === 0"
   style="margin-top: 16px"
 >
   {{ uploading ? 'Uploading' : 'Start Upload' }}
 </button>
-<hr>
-<app-upload-chunk-file></app-upload-chunk-file>

@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class DTO {
-    String base64;
+    String data;
 }
