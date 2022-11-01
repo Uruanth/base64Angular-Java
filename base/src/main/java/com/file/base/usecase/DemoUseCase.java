@@ -3,8 +3,11 @@ package com.file.base.usecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
+import reactor.core.publisher.Mono;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -91,5 +94,29 @@ public class DemoUseCase {
         }
 
         return new ResponseEntity(base64, HttpStatus.OK);
+    }
+
+    public Mono<ResponseEntity> multiPart(FilePart file) {
+        log.info("entro al useCase");
+        /**
+        consumir el filepart en un archivo de excel, el primer map retorna un InputStream
+        */
+        return file.content()
+                .next()
+                .map(DataBuffer::asInputStream)
+                .map(input -> {
+                    log.info("entro al map");
+                    try {
+                        XSSFWorkbook libro = new XSSFWorkbook(input);
+                        log.info("consulto libro");
+                        log.warn(libro.getSheetAt(0).getRow(0).getCell(0).getStringCellValue());
+                        log.warn(libro.getSheetAt(0).getRow(0).getCell(1).getStringCellValue());
+                        log.warn(libro.getSheetAt(0).getRow(0).getCell(2).getStringCellValue());
+                        libro.close();
+                    } catch (IOException e) {
+                        log.error(e.getMessage());
+                    }
+                    return new ResponseEntity(HttpStatus.OK);
+                });
     }
 }
