@@ -112,6 +112,9 @@ public class DemoUseCase {
      */
     public Mono<ResponseEntity> multiPart2(FilePart file) {
         log.info("entro al useCase");
+        /**
+        consumir el filepart en un archivo de excel, el primer map retorna un InputStream
+        */
         return file.content()
                 .next()
                 .map(DataBuffer::asInputStream)

@@ -52,6 +52,10 @@ public class DemoService {
         }
     }
 
+    
+    /**
+    Recibe un solo archivo
+    */
     @PostMapping(path = "api/multipart", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity> multiParter(@RequestPart(value = "files", required = false) FilePart files) {
         log.info("entro multipart");
@@ -86,6 +90,9 @@ public class DemoService {
 //            return Mono.just(new ResponseEntity<>(HttpStatus.OK));
     }
 
+    /**
+    Recibe una lista de archivos
+    */
     @PostMapping(path = "api/multipart2", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity> multiParter2(@RequestPart(value = "files", required = false) List<FilePart> files) {
         log.info("entro multipart");
