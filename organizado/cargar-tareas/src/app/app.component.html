@@ -1,7 +1,7 @@
+<h2>Load file</h2>
 <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
            [nzDisabled]="fileList.length > 0"
            [nzAccept]="'.xlsx'">
-  <!--  [nzAccept]="'.xlsx'"-->
   <button nz-button><i nz-icon nzType="upload"></i><span>Select File</span></button>
 </nz-upload>
 <button
@@ -9,17 +9,17 @@
   [nzType]="'primary'"
   [nzLoading]="uploading"
 
-  (click)="loadFile2()"
+  (click)="loadFile()"
   [disabled]="fileList.length === 0"
   style="margin-top: 16px"
 >
   {{ uploading ? 'Uploading' : 'Start Upload' }}
 </button>
 <hr>
+<h2>Form data</h2>
 <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
            [nzDisabled]="fileList.length > 0"
            [nzAccept]="'.xlsx'">
-  <!--  [nzAccept]="'.xlsx'"-->
   <button nz-button><i nz-icon nzType="upload"></i><span>Select File</span></button>
 </nz-upload>
 <button
@@ -28,6 +28,24 @@
   [nzLoading]="uploading"
 
   (click)="formDataMethod()"
+  [disabled]="fileList.length === 0"
+  style="margin-top: 16px"
+>
+  {{ uploading ? 'Uploading' : 'Start Upload' }}
+</button>
+<hr>
+<h2>Chunked file</h2>
+<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload"
+           [nzDisabled]="fileList.length > 0"
+           [nzAccept]="'.xlsx'">
+  <button nz-button><i nz-icon nzType="upload"></i><span>Select File</span></button>
+</nz-upload>
+<button
+  nz-button
+  [nzType]="'primary'"
+  [nzLoading]="uploading"
+
+  (click)="loadFile2()"
   [disabled]="fileList.length === 0"
   style="margin-top: 16px"
 >

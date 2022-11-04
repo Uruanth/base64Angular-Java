@@ -1,10 +1,10 @@
-import { UploadFile } from 'ng-zorro-antd';
-import { EMPTY, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UploadFile } from 'ng-zorro-antd';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UploadFileService {
   constructor(private http: HttpClient) {}
@@ -32,9 +32,13 @@ export class UploadFileService {
     );
   }
 
+  public uploadStream(files: FormData): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post('/api/stream', files, { headers, reportProgress: true });
+  }
+
   public uploadFormData(files: FormData): Observable<any>{
-    //const req = new HttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts/', formData, { reportProgress: true }
-    //multipart/form-data; boundary=
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     return this.http.post('/api/multipart', files, { headers, reportProgress: true });

@@ -6,8 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -46,9 +52,59 @@ public class DemoService {
         }
     }
 
+    @PostMapping(path = "api/multipart", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity> multiParter(@RequestPart(value = "files", required = false) FilePart files) {
+        log.info("entro multipart");
+        List<ByteBuffer> byteList = new LinkedList<>();
+        if (files == null) {
+            return Mono.just(new ResponseEntity<>("No llego nada papi", HttpStatus.I_AM_A_TEAPOT));
+        } else {
+            log.info("file = " + files.filename());
+//            files.content().subscribe(parte -> {
+//                log.info("parte", parte);
+//            });
+            return useCase.multiPart(files);
+
+        }
+//            return Mono.just(new ResponseEntity<>(HttpStatus.OK));
+    }
+
+    @PostMapping(path = "api/multipart3", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity> multiParter3(@RequestPart(value = "files", required = false) Mono<FilePart> files) {
+        log.info("entro multipart");
+        List<ByteBuffer> byteList = new LinkedList<>();
+        if (files == null) {
+            return Mono.just(new ResponseEntity<>("No llego nada papi", HttpStatus.I_AM_A_TEAPOT));
+        } else {
+//            log.info("file = " + files.filename());
+//            files.content().subscribe(parte -> {
+//                log.info("parte", parte);
+//            });
+            return useCase.multiPart3(files);
+
+        }
+//            return Mono.just(new ResponseEntity<>(HttpStatus.OK));
+    }
+
+    @PostMapping(path = "api/multipart2", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity> multiParter2(@RequestPart(value = "files", required = false) List<FilePart> files) {
+        log.info("entro multipart");
+        log.info("tamaño" + files.size());
+        if (files == null) {
+            return Mono.just(new ResponseEntity<>("No llego nada papi", HttpStatus.I_AM_A_TEAPOT));
+        } else {
+            log.info("file = " + files.get(0).filename());
+            log.info("file = " + files.get(1).filename());
+            files.get(0).content().subscribe(parte -> {
+//                log.info("parte", parte);
+            });
+            return Mono.just(new ResponseEntity<>("todo normal mono", HttpStatus.OK));
+
+        }
+    }
+
     @GetMapping(path = "api/decode")
     public Mono<ResponseEntity> decode() {
-
         return Mono.just(useCase.decodeXLSX("base64"));
     }
 
